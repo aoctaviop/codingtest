@@ -3,23 +3,27 @@ PODS:
   - AlamofireImage (4.1.0):
     - Alamofire (~> 5.1)
   - PKHUD (5.3.0)
+  - Toaster (2.3.0)
 
 DEPENDENCIES:
   - Alamofire
   - AlamofireImage
   - PKHUD
+  - Toaster
 
 SPEC REPOS:
   trunk:
     - Alamofire
     - AlamofireImage
     - PKHUD
+    - Toaster
 
 SPEC CHECKSUMS:
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
   AlamofireImage: c4a2ba349885fb3064feb74d2e547bd42ce9be10
   PKHUD: 98f3e4bc904b9c916f1c5bb6d765365b5357291b
+  Toaster: c3473963c78e8cabbf6ea6f11ad0fdaae6f54987
 
-PODFILE CHECKSUM: 5386e887d7ddababe76d86823f8b7a0b3e43827a
+PODFILE CHECKSUM: cbd093093c5963e1f48820b16017fc91d88a6a6b
 
 COCOAPODS: 1.10.0

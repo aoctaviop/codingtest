@@ -12,6 +12,8 @@ target 'CodingTest' do
   pod 'AlamofireImage'
   # Activity Indicator
   pod 'PKHUD'
+  # Toast
+  pod 'Toaster'
   
   target 'CodingTestTests' do
     inherit! :search_paths
