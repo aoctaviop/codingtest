@@ -22,6 +22,12 @@ class MovieCell: UICollectionViewCell {
         // Initialization code
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        posterImageView.image = nil
+    }
+    
     func loadMovie(movie: Movie) {
         titleLabel.text = movie.title
         

@@ -118,27 +118,28 @@ class APIManager: NSObject {
         }
     }
     
-    func requestMovies(type: ListType, callback: @escaping ([Movie], Error?) -> Void) {
+    func requestMovies(type: ListType, page: Int, callback: @escaping ([Movie], Int, Int, Error?) -> Void) {
         
         let endpoint = type == .Popular ? API.URL.Popular : type == .TopRated ? API.URL.TopRated : API.URL.Upcoming
         
-        baseGETRequest(url: urlForEndpoint(endpoint: endpoint), params: [:]) { response, error in
+        baseGETRequest(url: urlForEndpoint(endpoint: endpoint), params: ["page": page]) { response, error in
             if let response = response as? [String: Any] {
                 let movies = response["results"] as! [[String: Any]]
+                let page = response["page"] as! Int
+                let max = response["total_pages"] as! Int
                 
-                
-//                if let theJSONData = try? JSONSerialization.data(
-//                    withJSONObject: movies,
-//                    options: []) {
-//                    let theJSONText = String(data: theJSONData,
-//                                               encoding: .ascii)
-//                    print("JSON string = \(theJSONText!)")
-//                }
+                if let theJSONData = try? JSONSerialization.data(
+                    withJSONObject: movies,
+                    options: []) {
+                    let theJSONText = String(data: theJSONData,
+                                               encoding: .ascii)
+                    print("JSON string = \(theJSONText!)")
+                }
                 
                 let parsedMovies = JSONDecoder.movies(rawData: movies)
-                callback(parsedMovies, nil)
+                callback(parsedMovies, page, max, nil)
             } else {
-                callback([], nil)
+                callback([], page, 0, nil)
             }
         }
     }

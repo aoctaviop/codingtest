@@ -12,15 +12,15 @@ struct Movie: Decodable {
     let id: Int
     let title: String
     let originalTitle: String
-    let isAdult: Bool
-    let genres: [Int]
-    let releaseDate: Date
-    let hasVideo: Bool
-    let backdropPath: String
-    let posterPath: String
-    let language: String
-    let overview: String
-    let rating: Double
+    let isAdult: Bool?
+    let genres: [Int]?
+    let releaseDate: Date?
+    let hasVideo: Bool?
+    let backdropPath: String?
+    let posterPath: String?
+    let language: String?
+    let overview: String?
+    let rating: Double?
     
     private enum CodingKeys : String, CodingKey {
         case id
@@ -38,11 +38,15 @@ struct Movie: Decodable {
     }
     
     func urlForBackdrop() -> String {
-        return String(format: API.URL.Image, backdropPath)
+        if let backdropPath = backdropPath{
+            return String(format: API.URL.Image, backdropPath)
+        }
+        
+        return ""
     }
     
     func urlForPoster() -> String {
-        return String(format: API.URL.Image, posterPath)
+        return String(format: API.URL.Image, posterPath!)
     }
     
     func urlForVideo() -> String {

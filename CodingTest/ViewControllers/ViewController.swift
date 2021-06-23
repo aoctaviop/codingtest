@@ -7,6 +7,7 @@
 
 import UIKit
 import PKHUD
+import Toaster
 
 enum ListType: Int {
     case Popular = 0
@@ -27,6 +28,13 @@ class ViewController: UIViewController {
     var movies: [Movie] = []
     var currentType: ListType = .Popular
     var selectedMovie: Movie?
+    var waiting = false
+    
+    var data: [ListType: [String: Any]] = [
+        ListType.Popular: ["page": 1, "data": [], "max": 0],
+        ListType.TopRated: ["page": 1, "data": [], "max": 0],
+        ListType.Upcoming: ["page": 1, "data": [], "max": 0],
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +49,7 @@ class ViewController: UIViewController {
             clearButton.addTarget(self, action: #selector(self.dismissSearch), for: .touchUpInside)
         }
         
-        downloadCurrentListType()
+        requestMovies(loadMore: false)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -54,27 +62,59 @@ class ViewController: UIViewController {
         }
     }
     
-    func downloadCurrentListType() {
+    func requestMovies(loadMore: Bool) {
+        // Checks if data was already loaded
+        if let array = self.data[self.currentType]!["data"] as? [Movie] {
+            if !loadMore && !array.isEmpty {
+                return
+            }
+        }
+        
         HUD.show(.progress)
         
-        APIManager.sharedInstance.requestMovies(type: currentType) { result, error in
+        var page = 1
+        
+        // Checks if already loaded all pages
+        if let currentPage = data[currentType]?["page"] as? Int, let max = data[currentType]!["max"] as? Int {
+            page = currentPage
+            if currentPage == max {
+                return
+            }
+        }
+        
+        if loadMore {
+            page += 1
+        }
+        
+        APIManager.sharedInstance.requestMovies(type: currentType, page: page) { result, page, max, error in
             HUD.hide()
             
-            self.movies = result
-            self.allMovies = result
-            
-            self.collectionView.isHidden = self.movies.count == 0
-            self.emptyLabel.isHidden = self.movies.count != 0
-            
-            self.collectionView.reloadData()
-            
-            switch self.currentType {
-            case .Popular:
-                self.title = "Popular"
-            case .TopRated:
-                self.title = "Top Rated"
-            case .Upcoming:
-                self.title = "Upcoming"
+            if (error != nil) {
+                Toast(text: error?.localizedDescription, duration: Delay.long).show()
+            } else {
+                if var array = self.data[self.currentType]!["data"] as? [Movie] {
+                    array.append(contentsOf: result)
+                    self.data[self.currentType]?["data"] = array
+                }
+                
+                self.data[self.currentType]?["page"] = page
+                self.data[self.currentType]?["max"] = max
+                
+                self.collectionView.isHidden = result.count == 0
+                self.emptyLabel.isHidden = result.count != 0
+                
+                self.collectionView.reloadData()
+                
+                switch self.currentType {
+                case .Popular:
+                    self.title = "Popular"
+                case .TopRated:
+                    self.title = "Top Rated"
+                case .Upcoming:
+                    self.title = "Upcoming"
+                }
+                
+                self.waiting = false
             }
         }
     }
@@ -112,8 +152,10 @@ class ViewController: UIViewController {
 extension ViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selectedMovie = movies[indexPath.row]
-        performSegue(withIdentifier: "ToDetail", sender: self)
+        if let array = data[currentType]!["data"] as? [Movie] {
+            selectedMovie = array[indexPath.row]
+            performSegue(withIdentifier: "ToDetail", sender: self)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -121,6 +163,14 @@ extension ViewController: UICollectionViewDelegate {
         UIView.animate(withDuration: 0.4) {
             cell.alpha = 1
         }
+        
+        if let array = data[currentType]!["data"] as? [Movie] {
+            if indexPath.row == array.count - 1 && !waiting{
+                waiting = true;
+                requestMovies(loadMore: true)
+            }
+        }
+        
     }
     
 }
@@ -128,13 +178,19 @@ extension ViewController: UICollectionViewDelegate {
 extension ViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return movies.count
+        if let array = data[currentType]!["data"] as? [Movie] {
+            return array.count
+        }
+        
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellIdentifier.Movie, for: indexPath) as! MovieCell
         
-        cell.loadMovie(movie: movies[indexPath.row])
+        if let array = data[currentType]!["data"] as? [Movie] {
+            cell.loadMovie(movie: array[indexPath.row])
+        }
         
         return cell
     }
@@ -144,18 +200,18 @@ extension ViewController: UICollectionViewDataSource {
 extension ViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            
-            let width = (view.frame.width - 3 * 16) / 2
-            return .init(width: width, height: width + 66)
-        }
         
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-            return UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
-        }
-        
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-            return 16
-        }
+        let width = (view.frame.width - 3 * 16) / 2
+        return .init(width: width, height: width + 66)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 16
+    }
     
 }
 
@@ -164,7 +220,7 @@ extension ViewController: UITabBarDelegate {
         if let index = tabBar.items?.firstIndex(of: item) {
             currentType = ListType.init(rawValue: index as Int)!
             collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
-            downloadCurrentListType()
+            requestMovies(loadMore: false)
         }
     }
 }
