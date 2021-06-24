@@ -27,6 +27,7 @@ Agrupados por carpeta:
 ### Utils
 - **Constants**: incluye constantes utilizadas en diferentes partes de la aplicación.
 - **PersistenceManager**: clase utilizada para almacener y recuperar la información.
+- - **Date+Utils**: incluye una extensión para generar un String a partir de un Date.
 ### Cells
 - **MovieCell, LabelCell, InfoCell, PosterCell, VideoCell**: celdas utilizadas por los UICollectionView y UITableView usados en la aplicación.
 ### Networking
