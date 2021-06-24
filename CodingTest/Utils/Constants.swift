@@ -51,3 +51,10 @@ struct Suffix {
     static let poster = "poster"
     static let backdrop = "backdrop"
 }
+
+extension NSNotification.Name {
+
+    static let internetStatusChanged = NSNotification.Name(rawValue: "com.rappi.codingtest.internet")
+
+
+}

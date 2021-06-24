@@ -32,8 +32,10 @@ class MovieCell: UICollectionViewCell {
     func loadMovie(movie: Movie) {
         titleLabel.text = movie.title
         
+        shadowView.isHidden = false
         AF.request(movie.urlForPoster()).responseImage { response in
             if case .success(let image) = response.result {
+                self.shadowView.isHidden = true
                 self.posterImageView.image = image
                 self.imageCache.add(image, withIdentifier: "\(movie.id)-\(Suffix.poster)")
             } else {
