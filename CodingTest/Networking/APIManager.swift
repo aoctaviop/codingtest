@@ -76,32 +76,32 @@ class APIManager: NSObject {
     
     //MARK: - Methods
     
-    func requestToken(callback: @escaping (Any?, Error?) -> Void) {
-        
-        let params: [String : Any] = [
-            "api_key": "8dff87a487d467bc7aca694de89336e5",
-            "language": "en-US",
-            "page": 1
-        ]
-        
-        let headers: HTTPHeaders = [
-            .contentType("application/json"),
-            .authorization(bearerToken: API.Constants.AccessToken)
-        ]
-        
-        AF.request( urlForEndpoint(endpoint: API.URL.RequestToken), method: .post, parameters: params, headers: headers).responseJSON { response in
-            switch response.result {
-            case .success(let value):
-                callback(value, nil)
-            case .failure(let error):
-                callback(nil, error)
-            }
-        }
-    }
+//    func requestToken(callback: @escaping (Any?, Error?) -> Void) {
+//
+//        let params: [String : Any] = [
+//            "api_key": "8dff87a487d467bc7aca694de89336e5",
+//            "language": "en-US",
+//            "page": 1
+//        ]
+//
+//        let headers: HTTPHeaders = [
+//            .contentType("application/json"),
+//            .authorization(bearerToken: API.Constants.AccessToken)
+//        ]
+//
+//        AF.request( urlForEndpoint(endpoint: API.URL.RequestToken), method: .post, parameters: params, headers: headers).responseJSON { response in
+//            switch response.result {
+//            case .success(let value):
+//                callback(value, nil)
+//            case .failure(let error):
+//                callback(nil, error)
+//            }
+//        }
+//    }
     
     func requestGenres(callback: @escaping ([Genre], Error?) -> Void) {
         let params: [String : Any] = [
-            "api_key": "8dff87a487d467bc7aca694de89336e5",
+            "api_key": API.Constants.APIKey,
             "language": "en-US",
         ]
         
@@ -109,7 +109,7 @@ class APIManager: NSObject {
             if let response = response as? [String: Any] {
                 let genres = response["genres"] as! [[String: Any]]
                 
-                let parsedGenres = JSONDecoder.genres(rawData: genres)
+                let parsedGenres = Decoders.genres(rawData: genres)
                 
                 callback(parsedGenres, nil)
             } else {
@@ -118,11 +118,32 @@ class APIManager: NSObject {
         }
     }
     
-    func requestMovies(type: ListType, page: Int, callback: @escaping ([Movie], Int, Int, Error?) -> Void) {
+    func requestMovies(type: Categories, page: Int, callback: @escaping ([Movie], Int, Int, Error?) -> Void) {
         
         let endpoint = type == .Popular ? API.URL.Popular : type == .TopRated ? API.URL.TopRated : API.URL.Upcoming
         
         baseGETRequest(url: urlForEndpoint(endpoint: endpoint), params: ["page": page]) { response, error in
+            if let response = response as? [String: Any] {
+                let movies = response["results"] as! [[String: Any]]
+                let page = response["page"] as! Int
+                let max = response["total_pages"] as! Int
+                
+                let parsedMovies = Decoders.movies(rawData: movies)
+                callback(parsedMovies, page, max, nil)
+            } else {
+                callback([], page, 0, nil)
+            }
+        }
+    }
+    
+    func searchMovies(query: String, page: Int, callback: @escaping ([Movie], Int, Int, Error?) -> Void) {
+        let params: [String : Any] = [
+            "api_key": API.Constants.APIKey,
+            "language": "en-US",
+            "query": query
+        ]
+        
+        baseGETRequest(url: urlForEndpoint(endpoint: API.URL.Search), params: params) { response, error in
             if let response = response as? [String: Any] {
                 let movies = response["results"] as! [[String: Any]]
                 let page = response["page"] as! Int
@@ -136,7 +157,7 @@ class APIManager: NSObject {
                     print("JSON string = \(theJSONText!)")
                 }
                 
-                let parsedMovies = JSONDecoder.movies(rawData: movies)
+                let parsedMovies = Decoders.movies(rawData: movies)
                 callback(parsedMovies, page, max, nil)
             } else {
                 callback([], page, 0, nil)
@@ -144,70 +165,16 @@ class APIManager: NSObject {
         }
     }
     
-    func requestPopular(callback: @escaping ([Movie], Error?) -> Void) {
-        baseGETRequest(url: urlForEndpoint(endpoint: API.URL.Popular), params: [:]) { response, error in
-            if let response = response as? [String: Any] {
-                let movies = response["results"] as! [[String: Any]]
-                let parsedMovies = JSONDecoder.movies(rawData: movies)
-                callback(parsedMovies, nil)
-            } else {
-                callback([], nil)
-            }
-        }
-    }
-    
-    func requestTopRated(callback: @escaping ([Movie], Error?) -> Void) {
-        baseGETRequest(url: urlForEndpoint(endpoint: API.URL.TopRated), params: [:]) { response, error in
-            if let response = response as? [String: Any] {
-                let movies = response["results"] as! [[String: Any]]
-                let parsedMovies = JSONDecoder.movies(rawData: movies)
-                callback(parsedMovies, nil)
-            } else {
-                callback([], nil)
-            }
-        }
-    }
-    
-    func requestUpcoming(callback: @escaping ([Movie], Error?) -> Void) {
-        baseGETRequest(url: urlForEndpoint(endpoint: API.URL.Upcoming), params: [:]) { response, error in
-            if let response = response as? [String: Any] {
-                let movies = response["results"] as! [[String: Any]]
-                let parsedMovies = JSONDecoder.movies(rawData: movies)
-                callback(parsedMovies, nil)
-            } else {
-                callback([], nil)
-            }
-        }
-    }
-    
-    func searchMovies(query: String, callback: @escaping ([Movie], Error?) -> Void) {
-        let params: [String : Any] = [
-            "api_key": API.Constants.APIKey,
-            "language": "en-US",
-            "query": query
-        ]
-        
-        baseGETRequest(url: urlForEndpoint(endpoint: API.URL.Search), params: params) { response, error in
-            if let response = response as? [String: Any] {
-                let movies = response["results"] as! [[String: Any]]
-                let parsedMovies = JSONDecoder.movies(rawData: movies)
-                callback(parsedMovies, nil)
-            } else {
-                callback([], nil)
-            }
-        }
-    }
-    
     func getVideos(movieID: String, callback: @escaping ([Video], Error?) -> Void) {
         let params: [String : Any] = [
-            "api_key": "8dff87a487d467bc7aca694de89336e5",
+            "api_key": API.Constants.APIKey,
             "language": "en-US",
         ]
         
         baseGETRequest(url: urlForEndpoint(endpoint: String(format: API.URL.Videos, movieID)), params: params) { response, error in
             if let response = response as? [String: Any] {
                 let videos = response["results"] as! [[String: Any]]
-                let parsedVideos = JSONDecoder.videos(rawData: videos)
+                let parsedVideos = Decoders.videos(rawData: videos)
                 callback(parsedVideos, nil)
             } else {
                 callback([], nil)

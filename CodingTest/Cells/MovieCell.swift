@@ -12,7 +12,7 @@ import AlamofireImage
 class MovieCell: UICollectionViewCell {
 
     @IBOutlet weak var posterImageView: UIImageView!
-    @IBOutlet weak var genreLabel: UILabel!
+    @IBOutlet weak var shadowView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     
     let imageCache = AutoPurgingImageCache(memoryCapacity: 111_111_111, preferredMemoryUsageAfterPurge: 90_000_000)
@@ -26,6 +26,7 @@ class MovieCell: UICollectionViewCell {
         super.prepareForReuse()
         
         posterImageView.image = nil
+        shadowView.isHidden = true
     }
     
     func loadMovie(movie: Movie) {
@@ -37,6 +38,7 @@ class MovieCell: UICollectionViewCell {
                 self.imageCache.add(image, withIdentifier: "\(movie.id)-poster")
             } else {
                 self.posterImageView.image = nil
+                self.shadowView.isHidden = false
             }
         }
     }

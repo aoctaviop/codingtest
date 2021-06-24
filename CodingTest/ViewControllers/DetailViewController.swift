@@ -32,6 +32,12 @@ class DetailViewController: UIViewController {
         
         title = movie!.title
         
+        tableView.tableFooterView = UIView(frame: .zero)
+        
+        genres = PersistenceManager.loadGenres()
+    }
+    
+    func loadMovieVideos() {
         if let movie = movie {
             APIManager.sharedInstance.getVideos(movieID: String(movie.id)) { response, error in
                 if (response.count > 0) {
@@ -42,7 +48,7 @@ class DetailViewController: UIViewController {
         }
     }
     
-    func getGenres() -> String {
+    func getGenresString() -> String {
         if let arrayOfGenres = genres {
             let movieGenres = arrayOfGenres.filter({ genre in
                 (movie?.genres!.contains(genre.id))!
@@ -105,7 +111,7 @@ extension DetailViewController: UITableViewDataSource {
             cell = xCell
         case .Genres:
             let xCell = tableView.dequeueReusableCell(withIdentifier: Constants.CellIdentifier.Label, for: indexPath) as! LabelCell
-            xCell.setup(caption: "Genres", text: getGenres())
+            xCell.setup(caption: "Genres", text: getGenresString())
             cell = xCell
         default:
             let video = videos[indexPath.row - DetailCells.Count.rawValue]
@@ -125,7 +131,10 @@ extension DetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if (indexPath.row == DetailCells.Trailer.rawValue) {
+            guard (movie?.backdropPath) != nil else { return 0 }
             return tableView.bounds.height / 3
+        } else if (indexPath.row == DetailCells.Genres.rawValue || movie?.genres?.count == 0) {
+              return 0
         }
         
         return UITableView.automaticDimension

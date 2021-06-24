@@ -14,6 +14,9 @@ target 'CodingTest' do
   pod 'PKHUD'
   # Toast
   pod 'Toaster'
+  # Data persistence
+  pod 'Disk', '~> 0.6.4'
+  
   
   target 'CodingTestTests' do
     inherit! :search_paths

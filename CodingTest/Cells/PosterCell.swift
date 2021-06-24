@@ -32,7 +32,7 @@ class PosterCell: UITableViewCell {
                 self.posterImageView.image = image
                 self.imageCache.add(image, withIdentifier: "\(movie.id)-backdrop")
             } else {
-                self.posterImageView.image = nil
+                self.posterImageView.image = UIImage(named: "placeholder")
             }
         }
     }

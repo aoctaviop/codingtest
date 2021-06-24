@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Genre: Decodable {
+struct Genre: Decodable, Encodable {
     let id: Int
     let name: String
 }

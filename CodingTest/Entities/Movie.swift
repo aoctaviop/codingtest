@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Movie: Decodable {
+struct Movie: Decodable, Encodable {
     
     let id: Int
     let title: String
@@ -46,7 +46,11 @@ struct Movie: Decodable {
     }
     
     func urlForPoster() -> String {
-        return String(format: API.URL.Image, posterPath!)
+        if let posterPath = posterPath{
+            return String(format: API.URL.Image, posterPath)
+        }
+        
+        return ""
     }
     
     func urlForVideo() -> String {
