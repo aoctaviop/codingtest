@@ -30,9 +30,9 @@ class PosterCell: UITableViewCell {
         AF.request(movie.urlForBackdrop()).responseImage { response in
             if case .success(let image) = response.result {
                 self.posterImageView.image = image
-                self.imageCache.add(image, withIdentifier: "\(movie.id)-backdrop")
+                self.imageCache.add(image, withIdentifier: "\(movie.id)-\(Suffix.backdrop)")
             } else {
-                self.posterImageView.image = UIImage(named: "placeholder")
+                self.posterImageView.image = UIImage.placeholder()
             }
         }
     }

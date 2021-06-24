@@ -25,6 +25,7 @@
 		34DEA2912683C686000C6ABD /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34DEA2902683C686000C6ABD /* PersistenceManager.swift */; };
 		34DEA2942683F7AD000C6ABD /* OnlineSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34DEA2932683F7AD000C6ABD /* OnlineSearchViewController.swift */; };
 		34DEA29626843891000C6ABD /* Date+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34DEA29526843891000C6ABD /* Date+Utils.swift */; };
+		34DEA29826843A74000C6ABD /* UIImage+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34DEA29726843A74000C6ABD /* UIImage+Utils.swift */; };
 		34E79381268220960064B33F /* InfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E79380268220960064B33F /* InfoCell.swift */; };
 		34E79383268224BB0064B33F /* PosterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E79382268224BB0064B33F /* PosterCell.swift */; };
 		34E79386268231130064B33F /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E79385268231130064B33F /* Genre.swift */; };
@@ -85,6 +86,7 @@
 		34DEA2902683C686000C6ABD /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
 		34DEA2932683F7AD000C6ABD /* OnlineSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineSearchViewController.swift; sourceTree = "<group>"; };
 		34DEA29526843891000C6ABD /* Date+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Utils.swift"; sourceTree = "<group>"; };
+		34DEA29726843A74000C6ABD /* UIImage+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Utils.swift"; sourceTree = "<group>"; };
 		34E79380268220960064B33F /* InfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCell.swift; sourceTree = "<group>"; };
 		34E79382268224BB0064B33F /* PosterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterCell.swift; sourceTree = "<group>"; };
 		34E79385268231130064B33F /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 				34E7938B268254120064B33F /* Constants.swift */,
 				34DEA2902683C686000C6ABD /* PersistenceManager.swift */,
 				34DEA29526843891000C6ABD /* Date+Utils.swift */,
+				34DEA29726843A74000C6ABD /* UIImage+Utils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -537,6 +540,7 @@
 				34DEA29626843891000C6ABD /* Date+Utils.swift in Sources */,
 				34DB87EE2681A18600EE6A29 /* LabelCell.swift in Sources */,
 				3469EC1326816018002C65DF /* AppDelegate.swift in Sources */,
+				34DEA29826843A74000C6ABD /* UIImage+Utils.swift in Sources */,
 				34DEA28F2683B9F9000C6ABD /* Storage.swift in Sources */,
 				3469EC472681612E002C65DF /* APIManager.swift in Sources */,
 				34E79388268234530064B33F /* Movie.swift in Sources */,

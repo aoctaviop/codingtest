@@ -23,14 +23,14 @@ class PersistenceManager: NSObject {
     }
     
     class func saveMovieCategory(category: Categories , movies: [Movie], currentIndex: Int, maxIndex: Int) {
-        let suffix = category == .Popular ? "popular" : category == .TopRated ? "top-rated" : "upcoming"
+        let suffix = category == .Popular ? Suffix.popular : category == .TopRated ? Suffix.topRated : Suffix.upcoming
         Storage.store(currentIndex, to: .caches, as: String(format: Filename.currentIndex, suffix))
         Storage.store(maxIndex, to: .caches, as: String(format: Filename.maxIndex, suffix))
         Storage.store(movies, to: .caches, as: String(format: Filename.movies, suffix))
     }
     
     class func loadMovieCategory(category: Categories, callback: (_ movies: [Movie], _ currentIndex: Int, _ maxIndex: Int) -> Void) {
-        let suffix = category == .Popular ? "popular" : category == .TopRated ? "top-rated" : "upcoming"
+        let suffix = category == .Popular ? Suffix.popular : category == .TopRated ? Suffix.topRated : Suffix.upcoming
         if Storage.fileExists(String(format: Filename.movies, suffix), in: .caches) {
             let movies = Storage.retrieve(String(format: Filename.movies, suffix), from: .caches, as: [Movie].self)
             let currentIndex = Storage.retrieve(String(format: Filename.currentIndex, suffix), from: .caches, as: Int.self)

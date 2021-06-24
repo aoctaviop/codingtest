@@ -32,7 +32,7 @@ class VideoCell: UITableViewCell {
             if case .success(let image) = response.result {
                 self.thumbnailImageView.image = image
             } else {
-                self.thumbnailImageView.image = UIImage(named: "placeholder")
+                self.thumbnailImageView.image = UIImage.placeholder()
             }
         }
     }

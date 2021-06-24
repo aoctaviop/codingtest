@@ -35,9 +35,9 @@ class MovieCell: UICollectionViewCell {
         AF.request(movie.urlForPoster()).responseImage { response in
             if case .success(let image) = response.result {
                 self.posterImageView.image = image
-                self.imageCache.add(image, withIdentifier: "\(movie.id)-poster")
+                self.imageCache.add(image, withIdentifier: "\(movie.id)-\(Suffix.poster)")
             } else {
-                self.posterImageView.image = nil
+                self.posterImageView.image = UIImage.placeholder()
                 self.shadowView.isHidden = false
             }
         }

@@ -43,3 +43,11 @@ struct DateFormats {
 struct Storyboard {
     static let main = "Main"
 }
+
+struct Suffix {
+    static let popular = "popular"
+    static let topRated = "top-rated"
+    static let upcoming = "upcoming"
+    static let poster = "poster"
+    static let backdrop = "backdrop"
+}
