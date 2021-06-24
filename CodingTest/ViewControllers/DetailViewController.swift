@@ -34,7 +34,7 @@ class DetailViewController: UIViewController {
         
         tableView.tableFooterView = UIView(frame: .zero)
         
-        genres = PersistenceManager.loadGenres()
+        loadMovieVideos()
     }
     
     func loadMovieVideos() {
@@ -133,7 +133,7 @@ extension DetailViewController: UITableViewDelegate {
         if (indexPath.row == DetailCells.Trailer.rawValue) {
             guard (movie?.backdropPath) != nil else { return 0 }
             return tableView.bounds.height / 3
-        } else if (indexPath.row == DetailCells.Genres.rawValue || movie?.genres?.count == 0) {
+        } else if (indexPath.row == DetailCells.Genres.rawValue && movie?.genres?.count == 0) {
               return 0
         }
         

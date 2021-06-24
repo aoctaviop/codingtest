@@ -58,22 +58,32 @@ class CategoriesViewController: UITabBarController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
+        if segue.identifier == "OnlineSearch" {
+            (segue.destination as! OnlineSearchViewController).genres = genres
+        }
     }
     
     func requestGenres() {
         
         if !NetworkState.isConnected() {
             genres = PersistenceManager.loadGenres()
+            assignGenres()
         }
         
         APIManager.sharedInstance.requestGenres { result, error in
             if (error == nil) {
                 self.genres = result
+                self.assignGenres()
                 DispatchQueue.global().async {
                     PersistenceManager.saveGenres(genres: self.genres)
                 }
             }
+        }
+    }
+    
+    func assignGenres() {
+        viewControllers!.forEach { controller in
+            (controller as! MoviesViewController).genres = genres
         }
     }
     
