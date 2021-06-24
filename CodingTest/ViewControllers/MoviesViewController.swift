@@ -43,7 +43,7 @@ class MoviesViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if (segue.identifier == "ToDetail") {
+        if (segue.identifier == Segue.toDetail) {
             let destination = segue.destination as! DetailViewController
             destination.movie = selectedMovie
             destination.genres = genres
@@ -139,11 +139,13 @@ class MoviesViewController: UIViewController {
     
 }
 
+//MARK: -
+
 extension MoviesViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedMovie = movies[indexPath.row]
-        performSegue(withIdentifier: "ToDetail", sender: self)
+        performSegue(withIdentifier: Segue.toDetail, sender: self)
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -161,6 +163,8 @@ extension MoviesViewController: UICollectionViewDelegate {
     
 }
 
+//MARK: -
+
 extension MoviesViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -168,7 +172,7 @@ extension MoviesViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellIdentifier.Movie, for: indexPath) as! MovieCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier.movie, for: indexPath) as! MovieCell
         
         cell.loadMovie(movie: movies[indexPath.row])
         
@@ -176,6 +180,8 @@ extension MoviesViewController: UICollectionViewDataSource {
     }
     
 }
+
+//MARK: -
 
 extension MoviesViewController: UICollectionViewDelegateFlowLayout {
     
@@ -194,6 +200,8 @@ extension MoviesViewController: UICollectionViewDelegateFlowLayout {
     }
     
 }
+
+//MARK: -
 
 extension MoviesViewController: UISearchBarDelegate {
     

@@ -15,6 +15,4 @@ class NetworkState {
         return NetworkReachabilityManager()!.isReachable
     }
     
-//    let reachabilityManager = NetworkReachabilityManager()
-    
 }

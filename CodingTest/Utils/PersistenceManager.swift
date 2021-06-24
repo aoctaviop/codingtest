@@ -10,12 +10,12 @@ import UIKit
 class PersistenceManager: NSObject {
 
     class func saveGenres(genres: [Genre]) {
-        Storage.store(genres, to: .caches, as: Constants.Filename.Genres)
+        Storage.store(genres, to: .caches, as: Filename.genres)
     }
     
     class func loadGenres() -> [Genre] {
-        if Storage.fileExists(Constants.Filename.Genres, in: .caches) {
-            let genres = Storage.retrieve(Constants.Filename.Genres, from: .caches, as: [Genre].self)
+        if Storage.fileExists(Filename.genres, in: .caches) {
+            let genres = Storage.retrieve(Filename.genres, from: .caches, as: [Genre].self)
             return genres
         }
         
@@ -24,17 +24,17 @@ class PersistenceManager: NSObject {
     
     class func saveMovieCategory(category: Categories , movies: [Movie], currentIndex: Int, maxIndex: Int) {
         let suffix = category == .Popular ? "popular" : category == .TopRated ? "top-rated" : "upcoming"
-        Storage.store(currentIndex, to: .caches, as: String(format: Constants.Filename.CurrentIndex, suffix))
-        Storage.store(maxIndex, to: .caches, as: String(format: Constants.Filename.MaxIndex, suffix))
-        Storage.store(movies, to: .caches, as: String(format: Constants.Filename.Movies, suffix))
+        Storage.store(currentIndex, to: .caches, as: String(format: Filename.currentIndex, suffix))
+        Storage.store(maxIndex, to: .caches, as: String(format: Filename.maxIndex, suffix))
+        Storage.store(movies, to: .caches, as: String(format: Filename.movies, suffix))
     }
     
     class func loadMovieCategory(category: Categories, callback: (_ movies: [Movie], _ currentIndex: Int, _ maxIndex: Int) -> Void) {
         let suffix = category == .Popular ? "popular" : category == .TopRated ? "top-rated" : "upcoming"
-        if Storage.fileExists(String(format: Constants.Filename.Movies, suffix), in: .caches) {
-            let movies = Storage.retrieve(String(format: Constants.Filename.Movies, suffix), from: .caches, as: [Movie].self)
-            let currentIndex = Storage.retrieve(String(format: Constants.Filename.CurrentIndex, suffix), from: .caches, as: Int.self)
-            let maxIndex = Storage.retrieve(String(format: Constants.Filename.MaxIndex, suffix), from: .caches, as: Int.self)
+        if Storage.fileExists(String(format: Filename.movies, suffix), in: .caches) {
+            let movies = Storage.retrieve(String(format: Filename.movies, suffix), from: .caches, as: [Movie].self)
+            let currentIndex = Storage.retrieve(String(format: Filename.currentIndex, suffix), from: .caches, as: Int.self)
+            let maxIndex = Storage.retrieve(String(format: Filename.maxIndex, suffix), from: .caches, as: Int.self)
             
             callback(movies, currentIndex, maxIndex)
         } else {

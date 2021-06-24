@@ -66,6 +66,8 @@ class DetailViewController: UIViewController {
 
 }
 
+//MARK: - 
+
 extension DetailViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -78,25 +80,23 @@ extension DetailViewController: UITableViewDataSource {
         switch DetailCells.init(rawValue: indexPath.row) {
         case .Title:
             let title = movie?.originalTitle == movie?.title ? movie?.title : "\(movie?.title ?? "") (\(movie?.originalTitle ?? ""))"
-            let xCell = tableView.dequeueReusableCell(withIdentifier: Constants.CellIdentifier.Label, for: indexPath) as! LabelCell
+            let xCell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.label, for: indexPath) as! LabelCell
             xCell.setup(caption: "Title", text: title ?? "")
             cell = xCell
         case .Trailer:
-            let xCell = tableView.dequeueReusableCell(withIdentifier: Constants.CellIdentifier.Poster, for: indexPath) as! PosterCell
+            let xCell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.poster, for: indexPath) as! PosterCell
             xCell.setup(movie: movie!)
             cell = xCell
         case .ReleaseDate:
-            let xCell = tableView.dequeueReusableCell(withIdentifier: Constants.CellIdentifier.Label, for: indexPath) as! LabelCell
-            var stringDate = "-"
+            let xCell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.label) as! LabelCell
+            var stringDate = ""
             if let releaseDate = movie?.releaseDate {
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "MMM d, yyyy"
-                stringDate = dateFormatter.string(from: releaseDate)
+                stringDate = releaseDate.toFormattedString()
             }
             xCell.setup(caption: "Release Date", text: stringDate)
             cell = xCell
         case .Info:
-            let xCell = tableView.dequeueReusableCell(withIdentifier: Constants.CellIdentifier.Info, for: indexPath) as! InfoCell
+            let xCell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.info, for: indexPath) as! InfoCell
             var language = movie?.language
             if let index = languages.firstIndex(where: { current in
                 current.code == movie?.language
@@ -106,16 +106,16 @@ extension DetailViewController: UITableViewDataSource {
             xCell.setup(rating: "\(movie!.rating!.rounded())", language: language ?? "", isAdult: movie!.isAdult!)
             cell = xCell
         case .Overview:
-            let xCell = tableView.dequeueReusableCell(withIdentifier:Constants.CellIdentifier.Label, for: indexPath) as! LabelCell
+            let xCell = tableView.dequeueReusableCell(withIdentifier:CellIdentifier.label, for: indexPath) as! LabelCell
             xCell.setup(caption: "Overview", text: movie!.overview!)
             cell = xCell
         case .Genres:
-            let xCell = tableView.dequeueReusableCell(withIdentifier: Constants.CellIdentifier.Label, for: indexPath) as! LabelCell
+            let xCell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.label, for: indexPath) as! LabelCell
             xCell.setup(caption: "Genres", text: getGenresString())
             cell = xCell
         default:
             let video = videos[indexPath.row - DetailCells.Count.rawValue]
-            let xCell = tableView.dequeueReusableCell(withIdentifier: Constants.CellIdentifier.Video, for: indexPath) as! VideoCell
+            let xCell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.video, for: indexPath) as! VideoCell
             xCell.setup(video: video)
             cell = xCell
         }
@@ -125,6 +125,8 @@ extension DetailViewController: UITableViewDataSource {
     }
     
 }
+
+//MARK: -
 
 extension DetailViewController: UITableViewDelegate {
     

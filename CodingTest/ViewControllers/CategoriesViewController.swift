@@ -14,7 +14,7 @@ class CategoriesViewController: UITabBarController {
     var genres: [Genre] = []
     
     lazy var popularViewController: MoviesViewController = {
-        var controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: Constants.ViewIdentifier.Movies) as! MoviesViewController
+        var controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: ViewIdentifier.movies) as! MoviesViewController
         
         controller.currentCategory = .Popular
         controller.tabBarItem = UITabBarItem(title: "Popular", image: UIImage(systemName: "heart.fill"), tag: 0)
@@ -22,7 +22,7 @@ class CategoriesViewController: UITabBarController {
         return controller
     }()
     lazy var topRatedViewController: MoviesViewController = {
-        var controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: Constants.ViewIdentifier.Movies) as! MoviesViewController
+        var controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: ViewIdentifier.movies) as! MoviesViewController
         
         controller.currentCategory = .TopRated
         controller.tabBarItem = UITabBarItem(title: "Top Rated", image: UIImage(systemName: "star.fill"), tag: 1)
@@ -30,7 +30,7 @@ class CategoriesViewController: UITabBarController {
         return controller
     }()
     lazy var upcoomingViewController: MoviesViewController = {
-        var controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: Constants.ViewIdentifier.Movies) as! MoviesViewController
+        var controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: ViewIdentifier.movies) as! MoviesViewController
         
         controller.currentCategory = .Upcoming
         controller.tabBarItem = UITabBarItem(title: "Upcoming", image: UIImage(systemName: "pin.fill"), tag: 2)
@@ -88,6 +88,8 @@ class CategoriesViewController: UITabBarController {
     }
     
 }
+
+//MARK: -
 
 extension CategoriesViewController: UITabBarControllerDelegate {
     

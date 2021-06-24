@@ -32,7 +32,7 @@ class OnlineSearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        collectionView.register(MovieCell.self, forCellWithReuseIdentifier: Constants.CellIdentifier.Movie)
+//        collectionView.register(MovieCell.self, forCellWithReuseIdentifier: CellIdentifier.Movie)
 
         loadLanguages()
         
@@ -114,6 +114,8 @@ class OnlineSearchViewController: UIViewController {
     
 }
 
+//MARK: -
+
 extension OnlineSearchViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -135,6 +137,8 @@ extension OnlineSearchViewController: UICollectionViewDelegate {
     
 }
 
+//MARK: -
+
 extension OnlineSearchViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -142,7 +146,7 @@ extension OnlineSearchViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellIdentifier.Movie, for: indexPath) as! MovieCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier.movie, for: indexPath) as! MovieCell
         
         cell.loadMovie(movie: movies[indexPath.row])
         
@@ -150,6 +154,8 @@ extension OnlineSearchViewController: UICollectionViewDataSource {
     }
     
 }
+
+//MARK: -
 
 extension OnlineSearchViewController: UICollectionViewDelegateFlowLayout {
     
@@ -168,6 +174,8 @@ extension OnlineSearchViewController: UICollectionViewDelegateFlowLayout {
     }
     
 }
+
+//MARK: -
 
 extension OnlineSearchViewController: UISearchBarDelegate {
     

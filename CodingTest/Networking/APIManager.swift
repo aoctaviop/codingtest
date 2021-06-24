@@ -57,47 +57,7 @@ class APIManager: NSObject {
         }
     }
     
-    private func basePOSTRequest(url: String, params: [String: Any], callback: @escaping (Any?, Error?) -> Void) {
-        
-        let headers: HTTPHeaders = [
-            .contentType("application/json"),
-            .authorization(bearerToken: API.Constants.AccessToken)
-        ]
-        
-        AF.request(url, method: .post, parameters: params, headers: headers).responseJSON { response in
-            switch response.result {
-            case .success(let value):
-                callback(value, nil)
-            case .failure(let error):
-                callback(nil, error)
-            }
-        }
-    }
-    
     //MARK: - Methods
-    
-//    func requestToken(callback: @escaping (Any?, Error?) -> Void) {
-//
-//        let params: [String : Any] = [
-//            "api_key": "8dff87a487d467bc7aca694de89336e5",
-//            "language": "en-US",
-//            "page": 1
-//        ]
-//
-//        let headers: HTTPHeaders = [
-//            .contentType("application/json"),
-//            .authorization(bearerToken: API.Constants.AccessToken)
-//        ]
-//
-//        AF.request( urlForEndpoint(endpoint: API.URL.RequestToken), method: .post, parameters: params, headers: headers).responseJSON { response in
-//            switch response.result {
-//            case .success(let value):
-//                callback(value, nil)
-//            case .failure(let error):
-//                callback(nil, error)
-//            }
-//        }
-//    }
     
     func requestGenres(callback: @escaping ([Genre], Error?) -> Void) {
         let params: [String : Any] = [

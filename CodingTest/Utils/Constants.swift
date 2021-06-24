@@ -13,21 +13,33 @@ enum Categories: Int {
     case Upcoming
 }
 
-struct Constants {
-    struct CellIdentifier {
-        static let Movie = "MovieCell"
-        static let Label = "LabelCell"
-        static let Info = "InfoCell"
-        static let Poster = "PosterCell"
-        static let Video = "VideoCell"
-    }
-    struct Filename {
-        static let Genres = "Genres"
-        static let Movies = "Movies-%@"
-        static let CurrentIndex = "CurrentIndex-%@"
-        static let MaxIndex = "MaxIndex-%@"
-    }
-    struct ViewIdentifier {
-        static let Movies = "MoviesViewController"
-    }
+struct CellIdentifier {
+    static let movie = "MovieCell"
+    static let label = "LabelCell"
+    static let info = "InfoCell"
+    static let poster = "PosterCell"
+    static let video = "VideoCell"
+}
+
+struct Filename {
+    static let genres = "Genres"
+    static let movies = "Movies-%@"
+    static let currentIndex = "CurrentIndex-%@"
+    static let maxIndex = "MaxIndex-%@"
+}
+
+struct ViewIdentifier {
+    static let movies = "MoviesViewController"
+}
+
+struct Segue {
+    static let toDetail = "ToDetail"
+}
+
+struct DateFormats {
+    static let short = "MMM d, yyyy"
+}
+
+struct Storyboard {
+    static let main = "Main"
 }
