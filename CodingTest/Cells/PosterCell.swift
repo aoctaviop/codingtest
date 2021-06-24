@@ -27,12 +27,14 @@ class PosterCell: UITableViewCell {
     }
 
     func setup(movie: Movie, width: CGFloat) {
-        AF.request(movie.urlForBackdrop(width: width)).responseImage { response in
-            if case .success(let image) = response.result {
-                self.posterImageView.image = image
-                self.imageCache.add(image, withIdentifier: "\(movie.id)-\(Suffix.backdrop)")
-            } else {
-                self.posterImageView.image = UIImage.placeholder()
+        if NetworkState.isConnected() {
+            AF.request(movie.urlForBackdrop(width: width)).responseImage { response in
+                if case .success(let image) = response.result {
+                    self.posterImageView.image = image
+                    self.imageCache.add(image, withIdentifier: "\(movie.id)-\(Suffix.backdrop)")
+                } else {
+                    self.posterImageView.image = UIImage.placeholder()
+                }
             }
         }
     }

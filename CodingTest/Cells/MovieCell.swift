@@ -33,14 +33,17 @@ class MovieCell: UICollectionViewCell {
         titleLabel.text = movie.title
         
         shadowView.isHidden = false
-        AF.request(movie.urlForPoster(width: width)).responseImage { response in
-            if case .success(let image) = response.result {
-                self.shadowView.isHidden = true
-                self.posterImageView.image = image
-                self.imageCache.add(image, withIdentifier: "\(movie.id)-\(Suffix.poster)")
-            } else {
-                self.posterImageView.image = UIImage.placeholder()
-                self.shadowView.isHidden = false
+        
+        if NetworkState.isConnected() {
+            AF.request(movie.urlForPoster(width: width)).responseImage { response in
+                if case .success(let image) = response.result {
+                    self.shadowView.isHidden = true
+                    self.posterImageView.image = image
+                    self.imageCache.add(image, withIdentifier: "\(movie.id)-\(Suffix.poster)")
+                } else {
+                    self.posterImageView.image = UIImage.placeholder()
+                    self.shadowView.isHidden = false
+                }
             }
         }
     }
