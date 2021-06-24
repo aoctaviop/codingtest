@@ -38,7 +38,7 @@ class PersistenceManager: NSObject {
             
             callback(movies, currentIndex, maxIndex)
         } else {
-            callback([], 0, 0)
+            callback([], 1, -1)
         }
     }
     

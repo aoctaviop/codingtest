@@ -47,7 +47,7 @@ class CategoriesViewController: UITabBarController {
         navigationItem.titleView = imageView
         
         self.delegate = self
-        
+        self.tabBar.tintColor = UIColor(red: 96.0 / 255.0, green: 151.0 / 255.0, blue: 193.0 / 255.0, alpha: 1.0)
         self.viewControllers = [
             popularViewController,
             topRatedViewController,
@@ -55,6 +55,18 @@ class CategoriesViewController: UITabBarController {
         ]
         
         requestGenres()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated) // this line need
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == "OnlineSearch" && !NetworkState.isConnected() {
+            Toast(text: "Check your internet connection!").show()
+            return false
+        }
+        return true
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

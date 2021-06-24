@@ -22,7 +22,7 @@ class MoviesViewController: UIViewController {
     var movies: [Movie] = []
     
     var currentPage = 1
-    var maxPage = 0
+    var maxPage = -1
     
     var currentCategory: Categories = .Popular
     var selectedMovie: Movie?
@@ -33,8 +33,6 @@ class MoviesViewController: UIViewController {
         
         loadLanguages()
         
-        requestMovies(loadMore: false)
-        
         if let searchTextField = searchBar.value(forKey: "searchField") as? UITextField , let clearButton = searchTextField.value(forKey: "_clearButton")as? UIButton {
             searchTextField.placeholder = "Type to search"
             clearButton.addTarget(self, action: #selector(self.dismissSearch), for: .touchUpInside)
@@ -44,7 +42,9 @@ class MoviesViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        
+        if movies.isEmpty {
+            requestMovies(loadMore: false)
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -72,12 +72,11 @@ class MoviesViewController: UIViewController {
             }
             
             return
-        } else {
-            ToastCenter.default.cancelAll()
         }
         
-        if (!allMovies.isEmpty && !loadMore) || // Checks if data was already loaded
-            currentPage == maxPage { // Checks if already loaded all pages
+        // Checks if data was already loaded
+        // Checks if already loaded all pages
+        if (!allMovies.isEmpty && !loadMore) || currentPage == maxPage {
             return
         }
         
