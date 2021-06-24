@@ -29,11 +29,11 @@ class MovieCell: UICollectionViewCell {
         shadowView.isHidden = true
     }
     
-    func loadMovie(movie: Movie) {
+    func loadMovie(movie: Movie, width: CGFloat) {
         titleLabel.text = movie.title
         
         shadowView.isHidden = false
-        AF.request(movie.urlForPoster()).responseImage { response in
+        AF.request(movie.urlForPoster(width: width)).responseImage { response in
             if case .success(let image) = response.result {
                 self.shadowView.isHidden = true
                 self.posterImageView.image = image

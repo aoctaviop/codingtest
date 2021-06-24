@@ -15,6 +15,8 @@ class OnlineSearchViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var emptyLabel: UILabel!
     
+    let width: CGFloat = round((UIScreen.main.bounds.width / 2) / 100.0) * 100.0
+    
     var genres: [Genre] = []
     var languages: [Languaje] = []
     
@@ -148,7 +150,7 @@ extension OnlineSearchViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier.movie, for: indexPath) as! MovieCell
         
-        cell.loadMovie(movie: movies[indexPath.row])
+        cell.loadMovie(movie: movies[indexPath.row], width: width)
         
         return cell
     }

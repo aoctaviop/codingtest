@@ -21,6 +21,8 @@ class DetailViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    let width: CGFloat = round(UIScreen.main.bounds.width / 100.0) * 100.0
+    
     var movie: Movie?
     var genres: [Genre]?
     var languages: [Languaje] = []
@@ -85,7 +87,7 @@ extension DetailViewController: UITableViewDataSource {
             cell = xCell
         case .Trailer:
             let xCell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.poster, for: indexPath) as! PosterCell
-            xCell.setup(movie: movie!)
+            xCell.setup(movie: movie!, width: width)
             cell = xCell
         case .ReleaseDate:
             let xCell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.label) as! LabelCell

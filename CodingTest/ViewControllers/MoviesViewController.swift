@@ -24,6 +24,8 @@ class MoviesViewController: UIViewController {
     var currentPage = 1
     var maxPage = -1
     
+    let width: CGFloat = round((UIScreen.main.bounds.width / 2) / 100.0) * 100.0
+    
     var currentCategory: Categories = .Popular
     var selectedMovie: Movie?
     var waiting = false
@@ -179,7 +181,7 @@ extension MoviesViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier.movie, for: indexPath) as! MovieCell
         
-        cell.loadMovie(movie: movies[indexPath.row])
+        cell.loadMovie(movie: movies[indexPath.row], width: width)
         
         return cell
     }

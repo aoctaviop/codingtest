@@ -11,7 +11,7 @@ import Alamofire
 struct API {
     struct URL {
         static let Base = "https://api.themoviedb.org/3/"
-        static let Image = "https://image.tmdb.org/t/p/w500/%@"
+        static let Image = "https://image.tmdb.org/t/p/w%d%@"
         static let RequestToken = "auth/request_token"
         static let Genres = "genre/movie/list"
         static let Popular = "movie/popular"

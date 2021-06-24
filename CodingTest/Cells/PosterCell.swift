@@ -26,8 +26,8 @@ class PosterCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    func setup(movie: Movie) {
-        AF.request(movie.urlForBackdrop()).responseImage { response in
+    func setup(movie: Movie, width: CGFloat) {
+        AF.request(movie.urlForBackdrop(width: width)).responseImage { response in
             if case .success(let image) = response.result {
                 self.posterImageView.image = image
                 self.imageCache.add(image, withIdentifier: "\(movie.id)-\(Suffix.backdrop)")

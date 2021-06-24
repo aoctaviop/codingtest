@@ -37,23 +37,25 @@ struct Movie: Decodable, Encodable {
         case rating = "vote_average"
     }
     
-    func urlForBackdrop() -> String {
+    func urlForBackdrop(width: CGFloat) -> String {
         if let backdropPath = backdropPath{
-            return String(format: API.URL.Image, backdropPath)
+            let url = String(format: API.URL.Image, Int(width), backdropPath)
+            return url
         }
         
         return ""
     }
     
-    func urlForPoster() -> String {
+    func urlForPoster(width: CGFloat) -> String {
         if let posterPath = posterPath{
-            return String(format: API.URL.Image, posterPath)
+            let url = String(format: API.URL.Image, Int(width), posterPath)
+            return url
         }
         
         return ""
     }
     
-    func urlForVideo() -> String {
+    func urlForVideo(width: CGFloat) -> String {
         return String(format: API.URL.Video, String(id), API.Constants.APIKey)
     }
 }
