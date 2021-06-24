@@ -34,8 +34,8 @@ Agrupados por carpeta:
 - **APIManager**: incluye los llamados a los diferentes endpoints del API utilizados en la aplicación.
 - **NetworkState**: clase utilizada para determinar si el dispositivo tiene una conexión a internet válida.
 ## Preguntas
-####1.	En qué consiste el principio de responsabilidad única? Cuál es su propósito?
+#### 1.	En qué consiste el principio de responsabilidad única? Cuál es su propósito?
 Este principio consiste en que cada clase tenga una responsabilidad específica, encapsulando su comportamiento. El propósito es contribuir en que el código de la aplicación sea de fácil de entender, de mantener y de escalar. 
 
-####2.	Qué características tiene, según su opinión, un “buen” código o código limpio
+#### 2.	Qué características tiene, según su opinión, un “buen” código o código limpio
 Me parece que lo más importante es crear un código que sea fácil de leer y de entender, y por ende, que sea fácil de mantener. Para lograr esto es clave definir una correcta estructura para el proyecto, seguir la estructura léxica y las buenas prácticas recomendadas para el lenguaje de programación que se esté utilizando.
